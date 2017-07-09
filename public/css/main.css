@@ -1,4 +1,40 @@
-#page-wrapper {
-  max-width: 1000px;
-  margin: 0 auto;
+html, body {
+  height: 100%;
+  background: linear-gradient(to bottom, #1f57cb, #61179e);
+}
+
+#page-wrapper,
+.bg-gradient {
+  width: 100%;
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.05));
+}
+
+.bg-gradient h1,
+.bg-gradient h2 {
+  color: whitesmoke;
+}
+
+#content-wrapper {
+  width: 95%;
+  margin: 0 auto 50px auto;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.9);
+  min-height: 600px;
+}
+
+#page-wrapper .breadcrumb {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+#page-wrapper .breadcrumb a {
+  color: whitesmoke;
+}
+
+#page-wrapper .breadcrumb li.is-active a {
+  font-weight: 700;
+}
+
+#page-wrapper .breadcrumb li + li::before {
+  color: whitesmoke;
 }

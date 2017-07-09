@@ -1,0 +1,40 @@
+.columns
+  .column
+    h2.subtitle.is-pulled-left Create New Article
+  .column  
+    a.is-pulled-right(href='/manage')
+      span.icon
+        i.fa.fa-chevron-left(style='font-size: 14px')
+      | back to manage
+form
+  .field
+    .label Title
+    p.control.has-icons-left
+      span.icon.is-small
+        i.fa.fa-align-left
+      input.input(type='text')
+        
+  .field
+    .label Subtitle
+    p.control.has-icons-left
+      span.icon.is-small
+        i.fa.fa-align-left
+      input.input(type='text')
+          
+  .field
+    .label Category
+    p.control.has-icons-left
+      span.icon.is-small
+        i.fa.fa-clone
+      span.select
+        select
+          option Review
+          option Update
+          option Release
+          option Console
+          option Introspective
+  
+  .field
+    .label Content
+    p.control
+      textarea.textarea

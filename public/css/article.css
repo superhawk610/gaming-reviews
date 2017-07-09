@@ -1,0 +1,36 @@
+p {
+  margin-bottom: 15px;
+}
+
+.article-header::after,
+.article::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.header-flair {
+  float: left;
+  margin-right: 25px;
+  height: 200px;
+}
+
+.header-text {
+  float: left;
+  padding-top: 90px;
+}
+
+.article {
+  position: relative;
+}
+
+.article-content {
+  float: left;
+  padding-right: 400px;
+}
+
+.article-sidebar {
+  position: absolute;
+  top: 25px; right: 25px;
+  width: 350px;
+}

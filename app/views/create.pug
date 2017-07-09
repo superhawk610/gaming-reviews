@@ -1,0 +1,63 @@
+doctype html
+html
+  head
+    case render
+      when 'menu'
+        title Manage | Home
+      when 'games'
+        title Manage | Games
+      when 'articles'
+        title Manage | Articles
+      when 'authors'
+        title Manage | Authors
+    include includes/head.pug
+    
+  body
+    include includes/nav.pug
+    #page-wrapper
+      #content-wrapper
+        h1.title Manage Content
+        h2.subtitle select an option
+        if render == 'menu'
+          ul
+            li
+              a(href='/manage/games') Add a Game
+            li
+              a(href='/manage/authors') Add an Author
+            li
+              a(href='/manage/articles') Add an Article
+        
+        if render == 'games'
+          include components/create-game.pug
+          
+        if render == 'articles'
+          include components/create-article.pug
+          
+        if render == 'authors'
+          include components/create-author.pug
+          
+      nav.breadcrumb
+        ul
+          li
+            a(href='/home')
+              span.icon.is-small
+                i.fa.fa-home
+          if render == 'menu'
+            li.is-active
+              a(href='#') Manage
+          else
+            li
+              a(href='/manage') Manage
+            if render == 'games'
+              li
+                a(href='#') Games
+            if render == 'articles'
+              li
+                a(href='#') Articles
+            if render == 'authors'
+              li
+                a(href='#') Authors
+            li.is-active
+              a(href='#') Add New
+            
+    include includes/foot.pug
