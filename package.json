@@ -1,0 +1,35 @@
+{
+  "name": "gaming-reviews",
+  "version": "1.0.0",
+  "description": "Gaming reviews website.",
+  "main": "app/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/superhawk610/gaming-reviews.git"
+  },
+  "keywords": [
+    "gaming",
+    "reviews"
+  ],
+  "author": "Aaron Ross",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/superhawk610/gaming-reviews/issues"
+  },
+  "homepage": "https://github.com/superhawk610/gaming-reviews#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "bulma": "^0.4.3",
+    "express": "^4.15.3",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.2.1",
+    "mongoose": "^4.11.1",
+    "pug": "^2.0.0-rc.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
