@@ -8,7 +8,7 @@ const gameSchema = Schema({
   genre: {
     type: String,
     enum: [ 'Action', 'Adventure', 'RPG', 'Shooter', 'Simulation', 'Strategy', 'Sports', 'Indie', 'MMORPG', 'Survival', 'Horror' ]
-  }
+  },
   rating: {
     type: String,
     enum: [ 'RP', 'EC', 'E', 'E10+', 'T', 'M', 'AO' ]
