@@ -107,6 +107,24 @@ blockquote:not(:last-child) {
 }
 
 @media (max-width: 767px) {
+  .header-text {
+    padding-top: 10px;
+  }
+
+  .header-flair {
+    height: 100%;
+    width: 100%;
+    padding: 15%;
+  }
+
+  .header-flair img {
+    border: 12px solid #444;
+    border-radius: 6px;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 30px 10px -10px gray;
+  }
+
   .article-content {
     padding: 0;
   }
