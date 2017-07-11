@@ -3,7 +3,13 @@ const Schema        = mongoose.Schema
 
 const gameSchema = Schema({
   name: String,
-  image: String,
+  image: String,  // http://thecoverproject.net for HQ cover images
+                  //
+                  // Extensions (quality-based)
+                  // (no ext.)    1/2 size, front and back, moderate load
+                  // -full        full size, front and back, slow load
+                  // -small       1/4 size, front and back, fast load
+                  // -front       add before above extension to crop to front only
   releaseDate: Date,
   genre: {
     type: String,

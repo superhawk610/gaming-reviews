@@ -7,19 +7,24 @@ nav.navbar
         i.fa.fa-trophy
       | &nbsp;Game
       span(style='color: #aaa') Reviews
-  .navbar-start
-    a.navbar-item(href='/home') Home
-    a.navbar-item(href='/manage') Manage
-    a.navbar-item(href='/article') Sample Article
-  .navbar-end
-    .navbar-item.has-dropdown.is-hoverable
-      a.navbar-link
-        span.icon.is-small
-          i.fa.fa-user
-        | &nbsp;Username
-      .navbar-dropdown
-        a.navbar-item Link 1
-        a.navbar-item Link 2
-        a.navbar-item Link 3
-        hr.navbar-divider
-        a.navbar-item Link 4
+    .navbar-burger
+      span
+      span
+      span
+  .navbar-menu
+    .navbar-start
+      a.navbar-item(href='/home') Home
+      a.navbar-item(href='/manage') Manage
+      a.navbar-item(href='/article') Sample Article
+    .navbar-end
+      .navbar-item.has-dropdown.is-hoverable
+        a.navbar-link
+          span.icon.is-small
+            i.fa.fa-user
+          | &nbsp;Username
+        .navbar-dropdown
+          a.navbar-item Link 1
+          a.navbar-item Link 2
+          a.navbar-item Link 3
+          hr.navbar-divider
+          a.navbar-item Link 4

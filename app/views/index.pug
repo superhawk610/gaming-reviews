@@ -6,10 +6,14 @@ html
     
   body
     include includes/nav.pug
-    section.hero.bg-gradient.is-fullheight
-      .hero-body
-        .container
-          h1.title Welcome to the site!
-          h2.subtitle We're the best, basically.
+    #page-wrapper
+      #content-wrapper
+        h1.title Homepage
+        h2.subtitle Article List
+        
+        ul
+          each a in articles
+            li
+              a(href='/article/' + a._id)= a.title
       
     include includes/foot.pug
