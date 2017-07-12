@@ -13,6 +13,7 @@ html
     include includes/head.pug
     unless render == 'menu'
       include includes/quill/head.pug
+    link(href='/css/datepicker.min.css', rel='stylesheet')
     link(href='/css/create.css', rel='stylesheet')
     
   body
@@ -107,9 +108,13 @@ html
                 a(href='#') Add New
             
     include includes/foot.pug
+    script(src='/js/datepicker.min.js')
+    script(src='/js/datepicker.en.js')
+    script(src='/js/moment.js')
     unless render == 'menu'
       include includes/quill/foot.pug
     script.
+        
       $('.article-submit').on('click', function() {
         if (!$(this).attr('data-id')) return;
         $(this).addClass('is-loading');
@@ -118,6 +123,8 @@ html
         $(data).each(function(i, x) {
           o[x.name] = x.value;
         });
+        o.publishedOn = moment(o.date, 'MM/DD/YYYY').toDate();
+        delete o.date;
         o.content = $('#editor[name="content"] .ql-editor').html();
         o.ups = o.ups.split(',').map(function(x) {
           return x.trim();

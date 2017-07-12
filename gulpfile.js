@@ -17,4 +17,17 @@ gulp.task('fontawesome', () => {
       .pipe(gulp.dest('public/css'))
 })
 
-gulp.task('default', [ 'jquery', 'bulma', 'fontawesome' ])
+gulp.task('datepicker', () => {
+  gulp.src('node_modules/air-datepicker/dist/css/datepicker.min.css')
+      .pipe(gulp.dest('public/css'))
+  gulp.src(['node_modules/air-datepicker/dist/js/datepicker.min.js',
+            'node_modules/air-datepicker/dist/js/i18n/datepicker.en.js'])
+      .pipe(gulp.dest('public/js'))
+})
+
+gulp.task('moment', () => {
+  gulp.src('node_modules/moment/moment.js')
+      .pipe(gulp.dest('public/js'))
+})
+
+gulp.task('default', [ 'jquery', 'bulma', 'fontawesome', 'datepicker', 'moment' ])

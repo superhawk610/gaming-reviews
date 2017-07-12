@@ -30,6 +30,8 @@ app.use(bodyParser.urlencoded({      // to support URL-encoded bodies
   extended: true
 }))
 
+app.locals.moment = require('moment')
+
 app.get('/', (req, res) => {
   res.redirect('/home')
 })

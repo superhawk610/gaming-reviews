@@ -55,6 +55,16 @@ form#content-form
               option(selected=(article.category == c.name))= c.name
             else
               option= c.name
+              
+  .field
+    .label Published On
+    p.control.has-icons-left
+      span.icon.is-small
+        i.fa.fa-calendar
+      if article && article.publishedOn
+        input.input.datepicker-here(data-position='top left', data-language='en', type='text', name='date', value=moment(article.publishedOn).format('MM/DD/YYYY'))
+      else
+        input.input.datepicker-here(data-position='top left', data-language='en', type='text', name='date', value=moment().format('MM/DD/YYYY'))
           
   .field
     .label Content

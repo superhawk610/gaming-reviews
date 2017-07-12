@@ -23,7 +23,7 @@ dl::after {
 
 .header-text {
   float: left;
-  padding-top: 90px;
+  padding-top: 70px;
 }
 
 .article {
@@ -57,11 +57,11 @@ blockquote {
   padding: 1.25em 1.5em;
 }
 
-blockquote:nth-child(even) {
+blockquote:nth-of-type(even) {
   border-left: 5px solid #dbdbdb;
 }
 
-blockquote:nth-child(odd) {
+blockquote:nth-of-type(odd) {
   text-align: right;
   border-right: 5px solid #dbdbdb;
 }
@@ -95,7 +95,7 @@ blockquote:not(:last-child) {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1111px) {
   .header-text {
     padding-top: 10px;
   }
@@ -103,18 +103,30 @@ blockquote:not(:last-child) {
   .header-flair {
     height: 100%;
     width: 100%;
-    padding: 15%;
+    padding: 1% 60% 5% 0;
   }
 
   .header-flair img {
     border: 12px solid #444;
     border-radius: 6px;
-    width: 100%;
+    width: 80%;
+    margin: 0 auto 0 10px;
+    display: block;
     height: auto;
     box-shadow: 0 30px 10px -10px gray;
   }
 
   .article-content {
     padding: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .header-flair {
+    padding: 15%;
+  }
+
+  .header-flair img {
+    width: 100%;
   }
 }

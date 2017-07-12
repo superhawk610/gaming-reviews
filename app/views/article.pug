@@ -17,7 +17,12 @@ html
               .header-text
                 h1.title= article.title
                 h2.subtitle= article.subtitle
-                h5= 'Written by: ' + article.authors.map((x) => { return x.name }).join(', ')
+                h5
+                  span(style='color: #aaa') Written by:&nbsp;
+                  = article.authors.map((x) => { return x.name }).join(', ')
+                h5
+                  span(style='color: #aaa') Published on:&nbsp;
+                  = moment(article.publishedOn).format('ddd, MMM Do, YYYY')
             hr
             div
               != article.content
