@@ -20,6 +20,17 @@ mongoose.Promise  = require('bluebird')
 mongoose.connect('mongodb://52.14.239.101:27017/reviews', {
   useMongoClient: true
 })
+var connection = mongoose.connection
+connection.once('open', () => {
+  Category.find((err, _categories) => {
+    if (err) console.log(err)
+    app.locals.categories = _categories
+  })
+  Genre.find((err, _genres) => {
+    if (err) console.log(err)
+    app.locals.genres = _genres
+  })
+})
 
 app.set('view engine', 'pug')
 app.set('views', views)
@@ -30,7 +41,7 @@ app.use(bodyParser.urlencoded({      // to support URL-encoded bodies
   extended: true
 }))
 
-app.locals.moment = require('moment')
+app.locals.moment  = require('moment')
 
 app.get('/', (req, res) => {
   res.redirect('/home')
@@ -89,9 +100,7 @@ router.get('/authors', (req, res) => {
 
 router.route('/articles')
   .get((req, res) => {
-    Category.find().exec((err, categories) => {
-      res.render('create', { render: 'articles', categories: categories })
-    })
+    res.render('create', { render: 'articles' })
   })
   .post((req, res) => {
     var a = new Article(req.body)
@@ -104,9 +113,8 @@ router.route('/articles')
 router.route('/articles/:article_id')
   .get((req, res) => {
     Article.findOne({_id: req.params.article_id}).exec((err, article) => {
-      Category.find().exec((err, categories) => {
-        res.render('create', { render: 'articles', categories: categories, article: article })
-      })
+      if (err) res.send(err)
+      res.render('create', { render: 'articles', article: article })
     })
   })
   .post((req, res) => {

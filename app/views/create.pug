@@ -23,16 +23,19 @@ html
         if render == 'menu'
           h1.title Administration
           h2.subtitle viewing&nbsp;
-            strong all modules
+            a(href='#')
+              strong all modules
+                span.icon
+                  i.fa.fa-caret-down
             
           .columns
             .column.is-one-third-desktop.is-one-half-tablet
               nav.panel
-                p.panel-heading Content
+                p.panel-heading Articles
                 p.panel-tabs
-                  a.is-active Articles
-                  a Games
-                  a Authors
+                  a.is-active Drafts
+                  a Scheduled
+                  a Published
                 each a in articles
                   a.panel-block(href='/manage/articles/' + a._id)
                     span.panel-icon
@@ -42,6 +45,22 @@ html
                   span.panel-icon
                     i.fa.fa-plus
                   | Create New Article
+                  
+            .column.is-one-third-desktop.is-one-half-tablet
+              nav.panel
+                p.panel-heading Content
+                p.panel-tabs
+                  a.is-active Media
+                  a Games
+                  a Authors
+                  a Categories
+                  a Genres
+                each i in [1, 2, 3, 4, 5]
+                  a.panel-block(href='#')
+                    span.panel-icon
+                      i.fa.fa-image
+                    = i + '.jpg'
+                    
             .column.is-one-third-desktop.is-one-half-tablet
               nav.panel
                 p.panel-heading Users

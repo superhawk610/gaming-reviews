@@ -3,17 +3,23 @@ $('.article-submit').on('click', function() {
   var data = $('#content-form').serializeArray();
   var o = {};
   $(data).each(function(i, x) {
-    o[x.name] = x.value;
+    if (x.value.trim().length) {
+      o[x.name] = x.value;
+    }
   });
   o.publishedOn = moment(o.date, 'MM/DD/YYYY').toDate();
   delete o.date;
   o.content = $('#editor[name="content"] .ql-editor').html();
-  o.ups = o.ups.split(',').map(function(x) {
-    return x.trim();
-  });
-  o.downs = o.downs.split(',').map(function(x) {
-    return x.trim();
-  });
+  if (o.ups) {
+    o.ups = o.ups.split(',').map(function(x) {
+      return x.trim();
+    });
+  }
+  if (o.downs) {
+    o.downs = o.downs.split(',').map(function(x) {
+      return x.trim();
+    });
+  }
   o._id = $(this).attr('data-id');
   var that = this;
   $.post({

@@ -14,8 +14,11 @@ nav.navbar
   .navbar-menu
     .navbar-start
       a.navbar-item(href='/home') Home
-      a.navbar-item(href='/manage') Manage
-      a.navbar-item(href='/article') Sample Article
+      .navbar-item.has-dropdown.is-hoverable
+        a.navbar-link Categories
+        .navbar-dropdown  
+          each c in categories
+            a.navbar-item(href='#')= c.name
     .navbar-end
       .navbar-item.has-dropdown.is-hoverable
         a.navbar-link
@@ -23,11 +26,13 @@ nav.navbar
             i.fa.fa-user
           | &nbsp;Username
         .navbar-dropdown
-          a.navbar-item Link 1
-          a.navbar-item Link 2
-          a.navbar-item Link 3
+          a.navbar-item(href='/account') Account
+          a.navbar-item(href='/manage') Manage
           hr.navbar-divider
-          a.navbar-item Link 4
+          a.navbar-item
+            span.icon.is-small
+              i.fa.fa-sign-out
+            | &nbsp;Logout
           
 .modal#page-modal
   .modal-background

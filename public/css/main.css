@@ -78,6 +78,11 @@ html, body {
     padding: 15px;
   }
 
+  .panel-tabs {
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
   #page-wrapper .breadcrumb {
     margin-left: 0;
     margin-bottom: 5px;

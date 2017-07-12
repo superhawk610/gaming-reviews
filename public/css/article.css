@@ -32,9 +32,8 @@ dl::after {
 
 .article-content {
   width: 100%;
-  font-size: 0.95em;
   float: left;
-  padding: 25px 450px 25px 50px;
+  padding: 25px 400px 25px 50px;
 }
 
 .article-content ul,
@@ -73,18 +72,20 @@ blockquote:not(:last-child) {
 }
 
 .rating {
+  display: inline-block;
   font-size: 1.5em;
   padding: 0.3em;
   padding-top: 0.15em;
   font-weight: 500 !important;
   color: #fff;
   border-radius: 0.5em;
+  margin: 10px 0 8px 0;
 }
 
 .article-sidebar {
   position: absolute;
   top: 25px; right: 25px;
-  width: 350px;
+  width: 300px;
 }
 
 @media (max-width: 1249px) {

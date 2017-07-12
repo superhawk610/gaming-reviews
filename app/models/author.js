@@ -2,8 +2,7 @@ const mongoose      = require('mongoose')
 const Schema        = mongoose.Schema
 
 const authorSchema = Schema({
-  firstName: String,
-  lastName: String,
+  name: String,
   image: String,
   authorSince: Date
 })

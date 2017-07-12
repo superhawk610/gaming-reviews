@@ -19,14 +19,14 @@ html
                 h2.subtitle= article.subtitle
                 h5
                   span(style='color: #aaa') Written by:&nbsp;
-                  = article.authors.map((x) => { return x.name }).join(', ')
+                  = article.authors.map(x => x.name).join(', ')
                 h5
                   span(style='color: #aaa') Published on:&nbsp;
                   = moment(article.publishedOn).format('ddd, MMM Do, YYYY')
             hr
             div
               != article.content
-            if article.ups || article.downs || article.rating || article.summary
+            if (article.ups && article.ups.length) || (article.downs && article.downs.length) || (article.rating && article.rating.length) || (article.summary && article.summary.length)
               hr
               h2.subtitle Final Thoughts
               if article.ups || article.downs
@@ -44,14 +44,36 @@ html
                   span.rating(class='r' + Math.round(article.rating))= article.rating
               if article.summary
                 p= article.summary
-            hr(style='max-width: 300px')
-            p= article.authors.map((x) => { return x.name }).join(', ')
+            hr(style='max-width: 300px; margin-bottom: 0.5em')
+            p(style='margin: 0; font-size: 0.9em')
+              span.icon.is-small
+                i.fa(class='fa-' + (article.authors.length > 1 ? 'users' : 'user'))
+              | &nbsp;
+              = article.authors.map(x => x.name).join(', ')
+            p(style='font-size: 0.9em')
+              span.icon.is-small
+                i.fa.fa-clock-o
+              | &nbsp;
+              = moment(article.publishedOn).format('ddd, MMM Do, YYYY')
+            
           .article-sidebar
-            h2.subtitle You Might Like
-            ul
-              li Thing 1
-              li Thing 2
-              li Thing 3
+            h2.subtitle(style='margin: 1em 0 0.5em 0') You Might Like
+            ul(style='margin-left: 10px')
+              each i in [1, 2, 3]
+                li
+                  a= 'Thing ' + i
+          
+            h2.subtitle(style='margin: 1em 0 0.5em 0') Categories
+            ul(style='margin-left: 10px')
+              each c in categories
+                li
+                  a= c.name
+                  
+            h2.subtitle(style='margin: 1em 0 0.5em 0') Genres
+            ul(style='margin-left: 10px')
+              each g in genres
+                li
+                  a= g.name
           
       nav.breadcrumb
         ul
