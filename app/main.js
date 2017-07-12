@@ -3,8 +3,13 @@ const app         = express()
 const path        = require('path')
 const mongoose    = require('mongoose')
 const bodyParser  = require('body-parser')
+const reload      = require('reload')
+const watch       = require('watch')
+const http        = require('http')
 
 const port        = 80
+const views       = path.join(__dirname, 'views')
+const public      = path.resolve(__dirname, '../public')
 const Article     = require('./models/article.js')
 const Author      = require('./models/author.js')
 const Category    = require('./models/category.js')
@@ -17,10 +22,10 @@ mongoose.connect('mongodb://52.14.239.101:27017/reviews', {
 })
 
 app.set('view engine', 'pug')
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', views)
 
-app.use(express.static(path.resolve(__dirname, '../public')))
-app.use( bodyParser.json() )         // to support JSON-encoded bodies
+app.use(express.static(public))
+app.use(bodyParser.json())           // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({      // to support URL-encoded bodies
   extended: true
 }))
@@ -59,7 +64,9 @@ router.use((req, res, next) => {
 })
 
 router.get('/', (req, res) => {
-  res.render('create', { render: 'menu' })
+  Article.find().exec((err, articles) => {
+    res.render('create', { render: 'menu', articles: articles })
+  })
 })
 
 router.get('/games', (req, res) => {
@@ -79,11 +86,39 @@ router.get('/authors', (req, res) => {
 })
 
 router.get('/articles', (req, res) => {
-  res.render('create', { render: 'articles' })
+  Category.find().exec((err, categories) => {
+    res.render('create', { render: 'articles', categories: categories })
+  })
 })
+
+router.route('/articles/:article_id')
+  .get((req, res) => {
+    Article.findOne({_id: req.params.article_id}).exec((err, article) => {
+      Category.find().exec((err, categories) => {
+        res.render('create', { render: 'articles', categories: categories, article: article })
+      })
+    })
+  })
+  .post((req, res) => {
+    Article.findOneAndUpdate({_id: req.body._id}, req.body, {upsert: false}, (err, article) => {
+      if (err) res.send(err)
+      res.sendStatus(200)
+    })
+  })
 
 app.use('/manage', router)
 
-app.listen(port, () => {
+var server = http.createServer(app)
+var reloadServer = reload(app)
+
+watch.watchTree(views, (f, curr, prev) => {
+  reloadServer.reload()
+})
+
+watch.watchTree(public, (f, curr, prev) => {
+  reloadServer.reload()
+})
+
+server.listen(port, () => {
   console.log('listening on port ' + port)
 })

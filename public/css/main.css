@@ -1,6 +1,8 @@
 html, body {
   height: 100%;
   background: linear-gradient(to bottom, #1f57cb, #61179e);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 #page-wrapper,
@@ -37,4 +39,35 @@ html, body {
 
 #page-wrapper .breadcrumb li + li::before {
   color: whitesmoke;
+}
+
+#status-notification {
+  position: absolute;
+  z-index: 10;
+  right: 30px; bottom: 10px;
+  width: 300px;
+}
+
+.r1 { background: #cccccc }
+.r2 { background: #ccabab }
+.r3 { background: #cc6868 }
+.r4 { background: #cc817c }
+.r5 { background: #cc987c }
+.r6 { background: #ccb278 }
+.r7 { background: #c7cc86 }
+.r8 { background: #87cc86 }
+.r9 { background: #86cca2 }
+.r10 { background: #00d1b2 }
+
+.rhide {
+  border-radius: 0.5em;
+}
+
+.rhide:not(:hover):not(.is-active) {
+  background: transparent;
+  color: #363636;
+}
+
+.rhide:hover {
+  color: #fff;
 }

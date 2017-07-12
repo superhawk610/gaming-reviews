@@ -13,13 +13,32 @@ html
           .article-content
             .article-header
               .header-flair
-                img(src='/img/game/' + article.games[0].image)
+                img(src='/img/game/' + (article.games && article.games.length ? article.games[0].image : '404.png'))
               .header-text
                 h1.title= article.title
                 h2.subtitle= article.subtitle
                 h5= 'Written by: ' + article.authors.map((x) => { return x.name }).join(', ')
             hr
-            div!= article.content
+            div
+              != article.content
+            if article.ups || article.downs || article.rating || article.summary
+              hr
+              h2.subtitle Final Thoughts
+              if article.ups || article.downs
+                dl
+                  if article.ups
+                    each u in article.ups
+                      dt +
+                      dd= u
+                  if article.downs
+                    each d in article.downs
+                      dt —
+                      dd= d
+              if article.rating
+                p(style='font-weight: 500') Overall Rating:&nbsp;
+                  span.rating(class='r' + Math.round(article.rating))= article.rating
+              if article.summary
+                p= article.summary
             hr(style='width: 300px')
             p= article.authors.map((x) => { return x.name }).join(', ')
           .article-sidebar

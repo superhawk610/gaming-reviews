@@ -7,6 +7,10 @@ const articleSchema = Schema({
   content: String,
   publishedOn: Date,
   accentImage: String,
+  ups: [String],
+  downs: [String],
+  rating: Number,
+  summary: String,
   category: {
     type: String,
     enum: [ 'Review', 'Update', 'Release', 'Console', 'Introspective' ]

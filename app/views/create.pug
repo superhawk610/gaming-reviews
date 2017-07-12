@@ -11,21 +11,48 @@ html
       when 'authors'
         title Manage | Authors
     include includes/head.pug
+    unless render == 'menu'
+      include includes/quill/head.pug
+    link(href='/css/create.css', rel='stylesheet')
     
   body
     include includes/nav.pug
     #page-wrapper
       #content-wrapper
-        h1.title Manage Content
-        h2.subtitle select an option
         if render == 'menu'
-          ul
-            li
-              a(href='/manage/games') Add a Game
-            li
-              a(href='/manage/authors') Add an Author
-            li
-              a(href='/manage/articles') Add an Article
+          h1.title Administration
+          h2.subtitle viewing&nbsp;
+            strong all modules
+            
+          .columns
+            .column.is-one-third-desktop.is-one-half-tablet
+              nav.panel
+                p.panel-heading Content
+                p.panel-tabs
+                  a.is-active Articles
+                  a Games
+                  a Authors
+                each a in articles
+                  a.panel-block(href='/manage/articles/' + a._id)
+                    span.panel-icon
+                      i.fa.fa-newspaper-o
+                    = a.title
+                a.panel-block(href='/manage/articles')
+                  span.panel-icon
+                    i.fa.fa-plus
+                  | Create New Article
+            .column.is-one-third-desktop.is-one-half-tablet
+              nav.panel
+                p.panel-heading Users
+                p.panel-tabs
+                  a.is-active Administrators
+                  a Contributors
+                  a Readers
+                each u in ['Aaron Ross', 'Jay Bloder', 'Liz Borowski']
+                  a.panel-block(href='#')
+                    span.panel-icon
+                      i.fa.fa-user
+                    = u
         
         if render == 'games'
           include components/create-game.pug
@@ -50,14 +77,69 @@ html
               a(href='/manage') Manage
             if render == 'games'
               li
-                a(href='#') Games
+                if game
+                  a(href='/manage/games') Games
+                else
+                  a(href='#') Games
             if render == 'articles'
               li
-                a(href='#') Articles
+                if article
+                  a(href='/manage/articles') Articles
+                else
+                  a(href='#') Articles
             if render == 'authors'
               li
-                a(href='#') Authors
-            li.is-active
-              a(href='#') Add New
+                if author
+                  a(href='/manage/authors') Authors
+                else
+                  a(href='#') Authors
+            if article
+              li.is-active
+                a(href='#')= article._id
+            else if game
+              li.is-active
+                a(href='#')= game._id
+            else if author
+              li.is-active
+                a(href='#')= author._id
+            else
+              li.is-active
+                a(href='#') Add New
             
     include includes/foot.pug
+    unless render == 'menu'
+      include includes/quill/foot.pug
+    script.
+      $('.article-submit').on('click', function() {
+        if (!$(this).attr('data-id')) return;
+        $(this).addClass('is-loading');
+        var data = $('#content-form').serializeArray();
+        var o = {};
+        $(data).each(function(i, x) {
+          o[x.name] = x.value;
+        });
+        o.content = $('#editor[name="content"] .ql-editor').html();
+        o.ups = o.ups.split(',').map(function(x) {
+          return x.trim();
+        });
+        o.downs = o.downs.split(',').map(function(x) {
+          return x.trim();
+        });
+        o._id = $(this).attr('data-id');
+        var that = this;
+        $.post({
+          url: '/manage/articles/' + o._id,
+          data: o,
+          success: function(response) {
+            $(that).removeClass('is-loading');
+            var msg = (response == 'OK' ? 'Updated successfully!' : 'Something went wrong: ' + response);
+            var status = (response == 'OK' ? 'primary' : 'warning');
+            $('#status-notification').addClass('is-' + status).find('span').text(msg).end().fadeIn();
+            setTimeout(function() {
+              $('#status-notification').fadeOut(function() {
+                $(this).removeClass('is-' + status);
+              });
+            }, 5000);
+          }
+        })
+      });

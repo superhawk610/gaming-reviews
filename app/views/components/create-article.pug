@@ -1,25 +1,47 @@
 .columns
   .column
-    h2.subtitle.is-pulled-left Create New Article
+    if article
+      h1.title.is-pulled-left Manage Article
+    else
+      h1.title.is-pulled-left Create New Article
   .column  
     a.is-pulled-right(href='/manage')
       span.icon
         i.fa.fa-chevron-left(style='font-size: 14px')
       | back to manage
-form
+
+.columns
+  if article
+    .column
+      h2.subtitle.is-pulled-left
+        strong Article ID:&nbsp;
+        = article._id
+  .column
+    if article
+      button.button.is-primary.is-pulled-right.article-submit(data-id=article._id) Update
+    else
+      button.button.is-primary.is-pulled-right.article-submit Save
+  
+form#content-form
   .field
     .label Title
     p.control.has-icons-left
       span.icon.is-small
         i.fa.fa-align-left
-      input.input(type='text')
+      if article && article.title
+        input.input(type='text', name='title', value=article.title)
+      else
+        input.input(type='text', name='title', placeholder='Title')
         
   .field
     .label Subtitle
     p.control.has-icons-left
       span.icon.is-small
         i.fa.fa-align-left
-      input.input(type='text')
+      if article && article.subtitle
+        input.input(type='text', name='subtitle', value=article.subtitle)
+      else
+        input.input(type='text', name='subtitle', placeholder='Subtitle')
           
   .field
     .label Category
@@ -27,14 +49,61 @@ form
       span.icon.is-small
         i.fa.fa-clone
       span.select
-        select
-          option Review
-          option Update
-          option Release
-          option Console
-          option Introspective
-  
+        select(name='category')
+          each c in categories
+            if article
+              option(selected=(article.category == c.name))= c.name
+            else
+              option= c.name
+          
   .field
     .label Content
     p.control
-      textarea.textarea
+      include ../includes/quill/editor.pug
+  
+  .field
+    .label Positives
+      p.control.has-icons-left
+        span.icon.is-small
+          i.fa.fa-tags
+        if article && article.ups && article.ups.length
+          input.input(type='text', name='ups', value=article.ups.join(', '))
+        else
+          input.input(type='text', name='ups', placeholder='Great storytelling, Cute characters, Great weapon system')
+        
+  .field
+    .label Negatives
+      p.control.has-icons-left
+        span.icon.is-small
+          i.fa.fa-tags
+        if article && article.downs && article.downs.length
+          input.input(type='text', name='downs', value=article.downs.join(', '))
+        else
+          input.input(type='text', name='downs', placeholder='Hard to follow, Bad matchmaking, Too many jump scares')
+            
+  .field
+    .label Rating
+    if article && article.rating
+      - var rating = article.rating
+    else
+      - var rating = 7.5
+    each i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      a.rating-swatch.rhide(class='r' + i + (Math.round(rating) == i ? ' is-active' : ''))= i
+    br(style='clear: both')
+    p.control.has-icons-left(style='width: 10em')
+      span.icon.is-small
+        i.fa.fa-star
+      if article && article.rating
+        input.input(type='text', name='rating', value=rating)
+      else
+        input.input(type='text', name='rating', placeholder='7.5')
+          
+  .field
+    .label Summary
+      p.control.has-icons-left
+        span.icon.is-small
+          i.fa.fa-bolt
+        if article && article.summary
+          input.input(type='text', name='summary', value=article.summary)
+        else
+          input.input(type='text', name='summary', placeholder='Ultimately, this game succeeds in a lot of ways, but fails to deliver on the one thing it promises - fun.')
