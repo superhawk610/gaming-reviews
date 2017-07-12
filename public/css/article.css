@@ -31,6 +31,8 @@ dl::after {
 }
 
 .article-content {
+  width: 100%;
+  font-size: 0.95em;
   float: left;
   padding: 25px 450px 25px 50px;
 }
@@ -122,11 +124,20 @@ blockquote:not(:last-child) {
 }
 
 @media (max-width: 767px) {
+  dt {
+    width: 20px;
+  }
+
+  .article-content {
+    font-size: 0.9em;
+  }
+
   .header-flair {
     padding: 15%;
   }
 
   .header-flair img {
     width: 100%;
+    margin: 0 auto;
   }
 }

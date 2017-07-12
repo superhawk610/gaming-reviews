@@ -1,5 +1,6 @@
 html, body {
   height: 100%;
+  width: 100%;
   background: linear-gradient(to bottom, #1f57cb, #61179e);
   overflow-x: hidden;
   overflow-y: auto;
@@ -70,4 +71,19 @@ html, body {
 
 .rhide:hover {
   color: #fff;
+}
+
+@media (max-width: 767px) {
+  #content-wrapper {
+    padding: 15px;
+  }
+
+  #page-wrapper .breadcrumb {
+    margin-left: 0;
+    margin-bottom: 5px;
+  }
+
+  .breadcrumb > ul > li:not(:first-child):not(:last-child) {
+    display: none;
+  }
 }
