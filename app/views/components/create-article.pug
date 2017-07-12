@@ -19,6 +19,7 @@
   .column
     if article
       button.button.is-primary.is-pulled-right.article-submit(data-id=article._id) Update
+      button.button.is-danger.is-pulled-right.article-delete(data-id=article._id, style='margin-right: 8px') Delete
     else
       button.button.is-primary.is-pulled-right.article-submit Save
   
@@ -117,3 +118,10 @@ form#content-form
           input.input(type='text', name='summary', value=article.summary)
         else
           input.input(type='text', name='summary', placeholder='Ultimately, this game succeeds in a lot of ways, but fails to deliver on the one thing it promises - fun.')
+
+  .article-delete-confirmation.hide(style='height: 100%')
+    | Confirm Delete? (This cannot be undone.)
+    br
+    button.button.is-pulled-right.is-danger.modal-confirm Delete
+    button.button.is-pulled-right.modal-cancel(style='margin-right: 8px') Cancel
+    div(style='height: 27px')

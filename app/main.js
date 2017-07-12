@@ -87,11 +87,19 @@ router.get('/authors', (req, res) => {
   res.render('create', { render: 'authors' })
 })
 
-router.get('/articles', (req, res) => {
-  Category.find().exec((err, categories) => {
-    res.render('create', { render: 'articles', categories: categories })
+router.route('/articles')
+  .get((req, res) => {
+    Category.find().exec((err, categories) => {
+      res.render('create', { render: 'articles', categories: categories })
+    })
   })
-})
+  .post((req, res) => {
+    var a = new Article(req.body)
+    a.save((err, article) => {
+      if (err) res.json({ status: 500, message: err })
+      res.json({ status: 200, _id: article._id })
+    })
+  })
 
 router.route('/articles/:article_id')
   .get((req, res) => {
@@ -103,8 +111,14 @@ router.route('/articles/:article_id')
   })
   .post((req, res) => {
     Article.findOneAndUpdate({_id: req.body._id}, req.body, {upsert: false}, (err, article) => {
-      if (err) res.send(err)
-      res.sendStatus(200)
+      if (err) res.json({ status: 500, message: err })
+      res.json({ status: 200 })
+    })
+  })
+  .delete((req, res) => {
+    Article.findByIdAndRemove(req.params.article_id, err => {
+      if (err) res.json({ status: 500, message: err })
+      res.json({ status: 200 })
     })
   })
 

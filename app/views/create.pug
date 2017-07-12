@@ -113,40 +113,4 @@ html
     script(src='/js/moment.js')
     unless render == 'menu'
       include includes/quill/foot.pug
-    script.
-        
-      $('.article-submit').on('click', function() {
-        if (!$(this).attr('data-id')) return;
-        $(this).addClass('is-loading');
-        var data = $('#content-form').serializeArray();
-        var o = {};
-        $(data).each(function(i, x) {
-          o[x.name] = x.value;
-        });
-        o.publishedOn = moment(o.date, 'MM/DD/YYYY').toDate();
-        delete o.date;
-        o.content = $('#editor[name="content"] .ql-editor').html();
-        o.ups = o.ups.split(',').map(function(x) {
-          return x.trim();
-        });
-        o.downs = o.downs.split(',').map(function(x) {
-          return x.trim();
-        });
-        o._id = $(this).attr('data-id');
-        var that = this;
-        $.post({
-          url: '/manage/articles/' + o._id,
-          data: o,
-          success: function(response) {
-            $(that).removeClass('is-loading');
-            var msg = (response == 'OK' ? 'Updated successfully!' : 'Something went wrong: ' + response);
-            var status = (response == 'OK' ? 'primary' : 'warning');
-            $('#status-notification').addClass('is-' + status).find('span').text(msg).end().fadeIn();
-            setTimeout(function() {
-              $('#status-notification').fadeOut(function() {
-                $(this).removeClass('is-' + status);
-              });
-            }, 5000);
-          }
-        })
-      });
+    script(src='/js/create.js')
