@@ -30,7 +30,7 @@ const cfg_pass    = cfg.db_pass
 const apiKey      = cfg.api_key
 app.locals.deployment = cfg.deployment
 
-console.log(cfg.deployment)
+console.log('Deployment mode:',cfg.deployment)
 
 mongoose.Promise  = require('bluebird')
 mongoose.connect(

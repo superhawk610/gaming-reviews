@@ -64,7 +64,7 @@ var opts = [
   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
   ['bold', 'italic'],
   ['blockquote'],
-  ['image'],
+  ['link', 'image'],
   [{ 'list': 'ordered'}, { 'list': 'bullet' }],
   ['clean']
 ];

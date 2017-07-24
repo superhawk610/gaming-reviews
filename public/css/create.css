@@ -5,6 +5,10 @@
   overflow-y: auto;
 }
 
+.ql-editor {
+  padding-bottom: 50px;
+}
+
 .rating-swatch {
   float: left;
   margin-right: 5px;
