@@ -8,8 +8,8 @@ html
         title Manage | Games
       when 'articles'
         title Manage | Articles
-      when 'authors'
-        title Manage | Authors
+      when 'users'
+        title Manage | Users
     include includes/head.pug
     unless render == 'menu'
       include includes/quill/head.pug
@@ -23,10 +23,9 @@ html
         if render == 'menu'
           h1.title Administration
           h2.subtitle viewing&nbsp;
-            a(href='#')
-              strong all modules
-                span.icon
-                  i.fa.fa-caret-down
+            strong all modules
+              span.icon
+                i.fa.fa-caret-down
             
           .columns
             .column.is-one-third-desktop.is-one-half-tablet
@@ -52,7 +51,7 @@ html
                 p.panel-tabs
                   a.is-active Media
                   a Games
-                  a Authors
+                  a Users
                   a Categories
                   a Genres
                 each i in [1, 2, 3, 4, 5]
@@ -80,8 +79,8 @@ html
         if render == 'articles'
           include components/create-article.pug
           
-        if render == 'authors'
-          include components/create-author.pug
+        if render == 'users'
+          include components/create-user.pug
           
       nav.breadcrumb
         ul
@@ -107,21 +106,21 @@ html
                   a(href='/manage/articles') Articles
                 else
                   a(href='#') Articles
-            if render == 'authors'
+            if render == 'users'
               li
-                if author
-                  a(href='/manage/authors') Authors
+                if user
+                  a(href='/manage/users') Users
                 else
-                  a(href='#') Authors
+                  a(href='#') Users
             if article
               li.is-active
                 a(href='#')= article._id
             else if game
               li.is-active
                 a(href='#')= game._id
-            else if author
+            else if user
               li.is-active
-                a(href='#')= author._id
+                a(href='#')= user._id
             else
               li.is-active
                 a(href='#') Add New

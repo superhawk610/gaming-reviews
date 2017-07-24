@@ -22,7 +22,8 @@ $('.article-submit').on('click', function() {
   }
   o._id = $(this).attr('data-id');
   var that = this;
-  $.post({
+  $.ajax({
+    method: (o._id ? 'post' : 'put'),
     url: '/manage/articles/' + (o._id ? o._id : ''),
     data: o,
     success: function(response) {

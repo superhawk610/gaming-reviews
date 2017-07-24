@@ -20,19 +20,24 @@ nav.navbar
           each c in categories
             a.navbar-item(href='#')= c.name
     .navbar-end
-      .navbar-item.has-dropdown.is-hoverable
-        a.navbar-link
+      if _user
+        .navbar-item.has-dropdown.is-hoverable
+          a.navbar-link(style='padding-top: 0; padding-bottom: 0')
+            img.profile-pic(src='img/user/' + (_user.image ? _user.image : 'user.jpg'))
+            = _user.username
+          .navbar-dropdown
+            a.navbar-item(href='/account') Account
+            a.navbar-item(href='/manage') Manage
+            hr.navbar-divider
+            a.navbar-item(href='/logout?ref=' + (url == '/login' ? '/' : url))
+              span.icon.is-small
+                i.fa.fa-sign-out
+              | &nbsp;Logout
+      else
+        a.navbar-item(href='/login?ref=' + (url == '/login' ? '/' : url))
           span.icon.is-small
-            i.fa.fa-user
-          | &nbsp;Username
-        .navbar-dropdown
-          a.navbar-item(href='/account') Account
-          a.navbar-item(href='/manage') Manage
-          hr.navbar-divider
-          a.navbar-item
-            span.icon.is-small
-              i.fa.fa-sign-out
-            | &nbsp;Logout
+            i.fa.fa-lock
+          | &nbsp;Login
           
 .modal#page-modal
   .modal-background

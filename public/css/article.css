@@ -19,6 +19,7 @@ dl::after {
 .header-flair img {
   width: 125px;
   height: 200px;
+  object-fit: cover;
 }
 
 .header-text {

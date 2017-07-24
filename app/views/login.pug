@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title Home
+    include includes/head.pug
+    
+  body
+    include includes/nav.pug
+    #page-wrapper
+      #content-wrapper
+        h1.title Authentication Required
+        h2.subtitle Please Login Here
+      
+        form(method='post')
+          .field
+            label.label Username
+            .control
+              input.input(type='text', name='user', placeholder='Username')
+          
+          .field
+            label.label Password
+            .control
+              input.input(type='password', name='pass', placeholder='Password')
+          
+          input(type='hidden', name='ref', value=ref)
+          input.button(type='submit', value='Submit')
+      
+    include includes/foot.pug
