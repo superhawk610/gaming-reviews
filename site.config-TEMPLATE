@@ -1,5 +1,5 @@
 {
-       "db": "db"
+       "db": "db",
   "db_host": "127.0.0.1",
   "db_user": "user",
   "db_pass": "pass",
