@@ -31,7 +31,7 @@ function imageHandler() {
     if (this.files && this.files[0]) {
       var reader = new FileReader();
       var mime = this.files[0].type;
-      if ([ 'image/jpg', 'image/png', 'image/gif' ].indexOf(mime) < 0) {
+      if ([ 'image/jpg', 'image/jpeg', 'image/png', 'image/gif' ].indexOf(mime) < 0) {
         alert('Image format not supported. Please select a .jpg, .png, or .gif image.');
         $('#q-img-upload').remove();
         return;

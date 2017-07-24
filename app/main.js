@@ -28,6 +28,9 @@ const cfg_host    = cfg.db_host
 const cfg_user    = cfg.db_user
 const cfg_pass    = cfg.db_pass
 const apiKey      = cfg.api_key
+app.locals.deployment = cfg.deployment
+
+console.log(cfg.deployment)
 
 mongoose.Promise  = require('bluebird')
 mongoose.connect(
@@ -211,7 +214,7 @@ const storage     = multer.diskStorage({
   }
 })
 const filter      = (req, file, cb) => {
-  cb(null, [ 'image/jpg', 'image/png', 'image/gif' ].indexOf(req.body.mime) > -1)
+  cb(null, [ 'image/jpg', 'image/jpeg', 'image/png', 'image/gif' ].indexOf(req.body.mime) > -1)
 }
 const upload      = multer({ storage: storage,
                              fileFilter: filter,

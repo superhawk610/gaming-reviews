@@ -3,5 +3,6 @@
   "db_host": "127.0.0.1",
   "db_user": "user",
   "db_pass": "pass",
-  "api_key": "abc123foobar"
+  "api_key": "abc123foobar",
+  "deployment": false
 }
