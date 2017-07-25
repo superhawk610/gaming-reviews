@@ -1,0 +1,34 @@
+nav.panel
+  p.panel-heading Content
+  p.panel-tabs
+    a.is-active(href='#media') Media
+    a(href='#games') Games
+    a(href='#categories') Categories
+    a(href='#genres') Genres
+  .panel-page.is-active#media
+    each i in ['upload', 'user', 'game']
+      a.panel-block(href='files/img/' + i)
+        span.panel-icon
+          i.fa.fa-folder-o
+        = i
+  .panel-page#games
+    each g in games
+      a.panel-block(href='#')
+        if g.image
+          img.game-cover(src='img/game/' + g.image)
+        else
+          span.panel-icon
+            i.fa.fa-gamepad
+        = g.name
+  .panel-page#categories
+    each c in categories
+      a.panel-block(href='#')
+        span.panel-icon
+          i.fa.fa-tag
+        = c.name
+  .panel-page#genres
+    each g in genres
+      a.panel-block(href='#')
+        span.panel-icon
+          i.fa.fa-gamepad
+        = g.name

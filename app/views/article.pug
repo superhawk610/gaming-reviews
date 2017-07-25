@@ -3,17 +3,22 @@ html
   head
     title Sample Article
     include includes/head.pug
-    link(href='/css/article.css', rel='stylesheet')
+    link(href='css/article.css', rel='stylesheet')
     
   body
     include includes/nav.pug
     #page-wrapper
+      .backsplash
+      if article.category
+        .article-category= article.category
+      if _user && _user.role > 1 && article._id
+        a.button.is-primary.article-edit(href='manage/article/' + article._id) Edit Article
       #content-wrapper
         .article
           .article-content
             .article-header
               .header-flair
-                img(src='/img/game/' + (article.games && article.games.length ? article.games[0].image : '404.png'))
+                img(src='img/game/' + (article.games && article.games.length ? article.games[0].image : '404.png'))
               .header-text
                 h1.title= article.title
                 h2.subtitle= article.subtitle
@@ -78,7 +83,7 @@ html
       nav.breadcrumb
         ul
           li
-            a(href='/home')
+            a(href='home')
               span.icon.is-small
                 i.fa.fa-home
           li

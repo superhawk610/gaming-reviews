@@ -14,8 +14,8 @@ html
         ul
           each a in articles
             li
-              a(href='/article/' + a._id)= a.title || 'Untitled Article'
+              a(href='article/' + a._id)= a.title || 'Untitled Article'
           li
-            a(href='/article') Article Template
+            a(href='article') Article Template
       
     include includes/foot.pug

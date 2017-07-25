@@ -24,7 +24,7 @@ $('.article-submit').on('click', function() {
   var that = this;
   $.ajax({
     method: (o._id ? 'post' : 'put'),
-    url: '/manage/articles/' + (o._id ? o._id : ''),
+    url: 'manage/articles/' + (o._id ? o._id : ''),
     data: o,
     success: function(response) {
       $(that).removeClass('is-loading');
@@ -34,7 +34,7 @@ $('.article-submit').on('click', function() {
       setTimeout(function() {
         $('#status-notification').fadeOut(function() {
           $(this).removeClass('is-' + status);
-          if (response._id) window.location.replace('/manage/articles/' + response._id);
+          if (response._id) window.location.replace('manage/articles/' + response._id);
         });
       }, 1250);
     }
@@ -52,7 +52,7 @@ $('.modal').on('click', '.modal-confirm', function() {
   $(this).parentsUntil('.modal').parent().removeClass('is-active');
   $.ajax({
     method: 'delete',
-    url: '/manage/' + $(this).attr('data-type') + '/' + $(this).attr('data-id'),
+    url: 'manage/' + $(this).attr('data-type') + '/' + $(this).attr('data-id'),
     success: function(response) {
       $('.article-delete, .author-delete, .game-delete').removeClass('is-loading').prop('disabled', true).html('<span class="icon is-small"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Deleted');
       var msg = (response.status == 200 ? 'Successfully deleted' : 'Something went wrong: ' + response);
@@ -62,7 +62,7 @@ $('.modal').on('click', '.modal-confirm', function() {
         $('#status-notification').fadeOut(function() {
           $(this).removeClass('is-' + status);
           //window.location.replace('/manage/' + $(that).attr('data-type'));
-          window.location.replace('/manage');
+          window.location.replace('manage');
         });
       }, 1250);
     }

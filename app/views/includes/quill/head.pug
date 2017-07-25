@@ -1,1 +1,18 @@
 link(href='https://cdn.quilljs.com/1.0.0/quill.snow.css', rel='stylesheet')
+style(type='text/css').
+  .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before,
+  .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before {
+    content: "Header"
+  }
+  
+  .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before,
+  .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before {
+    content: "Subheader"
+  }
+  
+  .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before {
+    content: "Picture"
+  }
+  .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {
+    content: "Picture Caption"
+  }

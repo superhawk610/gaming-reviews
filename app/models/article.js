@@ -11,6 +11,7 @@ const articleSchema = Schema({
   downs: [String],
   rating: Number,
   summary: String,
+  status: { type: Number, min: 0, max: 2 },
   category: {
     type: String,
     enum: [ 'Review', 'Update', 'Release', 'Console', 'Introspective' ]

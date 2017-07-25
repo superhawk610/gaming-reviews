@@ -9,8 +9,14 @@ html
     #page-wrapper
       #content-wrapper
         h1.title Account Management
-        h2.subtitle= user
-      
+        h2.subtitle= _user.username
         
-      
+        img(src='img/user/' + _user.image).profile-pic.profile-pic-large
+        div(style='display: inline-block; vertical-align: top; margin-left: 10px')
+          h4
+            strong Full Name:
+            != '&nbsp;' + _user.name
+          h4
+            strong Role:
+            != '&nbsp;' + _user.extras.role 
     include includes/foot.pug

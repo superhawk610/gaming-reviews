@@ -1,0 +1,18 @@
+nav.panel
+  p.panel-heading Articles
+  p.panel-tabs
+    a.is-active(href='#drafts') Drafts
+    a(href='#needsreview') Needs Review
+    a(href='#published') Published
+  a.panel-block(href='manage/articles')
+    span.panel-icon
+      i.fa.fa-plus
+    | Create New Article
+  each tag, i in ['drafts', 'needsreview', 'published']
+    .panel-page(id=tag, class= i == 0 ? 'is-active' : '', style='height: 376px')
+      each a in articles
+        if a.status == i
+          a.panel-block(href='manage/articles/' + a._id)
+            span.panel-icon
+              i.fa.fa-newspaper-o
+            = a.title

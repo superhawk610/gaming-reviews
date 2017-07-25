@@ -3,12 +3,20 @@ const Schema            = mongoose.Schema
 const bcrypt            = require('bcrypt')
 const SALT_WORK_FACTOR  = 10
 
+const roles = [
+  'User',
+  'Contributor',
+  'Administrator',
+  'Developer'
+]
+
 const userSchema = Schema({
   username: { type: String, required: true, index: { unique: true } },
   name: String,
   pass: { type: String, required: true },
   image: String,
-  userSince: Date
+  userSince: Date,
+  role: { type: Number, min: 0, max: 3 }
 })
 
 userSchema.pre('save', function(next) {
@@ -30,5 +38,7 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
     cb(null, isMatch)
   })
 }
+
+userSchema.methods.extras = function() { return { role: roles[this.role] } }
 
 module.exports = mongoose.model('User', userSchema)

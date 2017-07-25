@@ -6,12 +6,24 @@ html, body {
   overflow-y: auto;
 }
 
-.navbar .profile-pic {
+.profile-pic,
+.navbar .profile-pic,
+.panel-block .profile-pic {
   height: 35px; width: 35px;
-  border-radius: 18px;
+  border-radius: 50%;
   margin-right: 10px;
   box-sizing: content-box;
   max-height: 42px;
+  display: inline-block;
+}
+
+.profile-pic-large {
+  height: 150px; width: 150px;
+  max-height: 150px;
+}
+
+#page-wrapper {
+  position: relative;
 }
 
 #page-wrapper,
@@ -31,6 +43,14 @@ html, body {
   padding: 25px;
   background: rgba(255, 255, 255, 0.9);
   min-height: 600px;
+}
+
+.backsplash {
+  width: 95%;
+  margin: 0 2.5% 50px 2.5%;
+  position: absolute;
+  background: #fff;
+  opacity: 0;
 }
 
 #page-wrapper .breadcrumb {
@@ -57,6 +77,31 @@ html, body {
   width: 300px;
 }
 
+.panel {
+  height: 500px;
+  background: rgba(255,255,255,0.4);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  overflow: hidden;
+}
+
+.panel .panel-page {
+  height: 417px;
+  overflow-y: auto;
+}
+
+.panel .panel-page:not(.is-active) {
+  display: none !important;
+}
+
+.panel-block .game-cover {
+  display: inline-block;
+  margin-right: 10px;
+  height: 120px; width: 80px;
+  box-sizing: border-box;
+  object-fit: cover;
+}
+
 .r1 { background: #cccccc }
 .r2 { background: #ccabab }
 .r3 { background: #cc6868 }
@@ -79,6 +124,12 @@ html, body {
 
 .rhide:hover {
   color: #fff;
+}
+
+@media (min-width: 1112px) {
+  .backsplash {
+    display: none;
+  }
 }
 
 @media (max-width: 767px) {

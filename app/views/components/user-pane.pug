@@ -1,0 +1,19 @@
+nav.panel
+  p.panel-heading Users
+  p.panel-tabs
+    a.is-active(href='#administrators') Administrators
+    a(href='#contributors') Contributors
+    a(href='#readers') Readers
+  -var j = 2
+  each role in ['administrators', 'contributors', 'readers']
+    .panel-page(id=role, class= j == 2 ? 'is-active' : '')
+      each u in users
+        if u.role == j || (j == 2 && u.role == 3)
+          a.panel-block(href='#')
+            if u.image
+              img.profile-pic(src='img/user/' + u.image)
+            else
+              span.panel-icon
+                i.fa.fa-user
+            = u.name
+      - j--

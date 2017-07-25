@@ -1,22 +1,22 @@
-.columns
+.columns(style='margin-bottom: 0')
   .column
     if article
       h1.title.is-pulled-left Manage Article
     else
       h1.title.is-pulled-left Create New Article
   .column  
-    a.is-pulled-right(href='/manage')
+    a.is-pulled-right(href='manage')
       span.icon
         i.fa.fa-chevron-left(style='font-size: 14px')
       | back to manage
 
 .columns
   if article
-    .column
+    .column(style='padding-top: 0')
       h2.subtitle.is-pulled-left
         strong Article ID:&nbsp;
-        = article._id
-  .column
+        a(href='article/' + article._id)= article._id
+  .column(style='padding-top: 0')
     if article
       button.button.is-primary.is-pulled-right.article-submit(data-id=article._id) Update
       button.button.is-danger.is-pulled-right.article-delete(data-id=article._id, style='margin-right: 8px') Delete
@@ -24,6 +24,18 @@
       button.button.is-primary.is-pulled-right.article-submit Save
   
 form#content-form
+  .field
+    .label Status
+    p.control.has-icons-left
+      span.icon.is-small
+        i.fa.fa-clock-o
+      span.select
+        select(name='status')
+          each s, i in ['Draft', 'Needs Review','Published']
+            if article
+              option(value=i, selected= article.status == i)= s
+            else
+              option(value=i)= s
   .field
     .label Title
     p.control.has-icons-left
@@ -48,7 +60,7 @@ form#content-form
     .label Category
     p.control.has-icons-left
       span.icon.is-small
-        i.fa.fa-clone
+        i.fa.fa-tags
       span.select
         select(name='category')
           each c in categories

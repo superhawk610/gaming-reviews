@@ -1,6 +1,7 @@
 const express     = require('express')
 const app         = express()
 const session     = require('express-session')
+const redis       = require('connect-redis')(session)
 const multer      = require('multer')
 const path        = require('path')
 const mongoose    = require('mongoose')
@@ -11,8 +12,8 @@ const http        = require('http')
 const queue       = require('./queue')
 const uuid        = require('uuid/v4')
 const fs          = require('fs')
+const request     = require('request')
 
-const port        = 80
 const views       = path.join(__dirname, 'views')
 const public      = path.resolve(__dirname, '../public')
 const Article     = require('./models/article')
@@ -23,12 +24,16 @@ const Genre       = require('./models/genre')
 
 const cfg_path    = path.resolve(__dirname, '../site.config')
 const cfg         = JSON.parse(fs.readFileSync(cfg_path, 'utf8'))
+const port        = cfg.port
+const proxy       = cfg.proxy
 const cfg_db      = cfg.db
 const cfg_host    = cfg.db_host
 const cfg_user    = cfg.db_user
 const cfg_pass    = cfg.db_pass
 const apiKey      = cfg.api_key
-app.locals.deployment = cfg.deployment
+const deployment  = cfg.deployment
+app.locals.deployment = deployment
+app.locals.proxy      = proxy
 
 console.log('Deployment mode:',cfg.deployment)
 
@@ -54,13 +59,15 @@ connection.once('open', () => {
 app.set('view engine', 'pug')
 app.set('views', views)
 
-app.use(express.static(public))
 app.use(bodyParser.json())           // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({      // to support URL-encoded bodies
   extended: true
 }))
 
 app.use(session({
+  store: new redis({
+    port: 6379
+  }),
   secret: apiKey,
   resave: false,                     // look into this
   saveUninitialized: true,
@@ -95,7 +102,7 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req, res) => {
-  res.redirect('/home')
+  res.redirect(proxy + '/home')
 })
 
 app.get('/home', (req, res) => {
@@ -109,17 +116,19 @@ app.get('/login', (req, res) => {
 })
 
 app.post('/login', (req, res) => {
-  if (!req.body.user || !req.body.pass) res.redirect('/login?error=true')
+  if (!req.body.user || !req.body.pass) res.redirect(proxy + '/login?error=true')
   else {
     User.findOne({username: req.body.user}, (err, user) => {
       if (err) return res.send(err)
-      if (!user) return res.redirect('/login?error=true')
+      if (!user) return res.redirect(proxy + '/login?error=true')
       user.comparePassword(req.body.pass, (err, isMatch) => {
         if (isMatch) {
-          req.session._user = user
-          res.redirect(req.body.ref || '/')
+          var _user = user.toObject()
+          _user.extras = user.extras()
+          req.session._user = _user
+          res.redirect(proxy + (req.body.ref || '/'))
         } else {
-          res.redirect('/login?error=true')
+          res.redirect(proxy + '/login?error=true')
         }
       })
     })
@@ -128,66 +137,38 @@ app.post('/login', (req, res) => {
 
 app.get('/logout', (req, res) => {
   req.session.destroy()
-  res.redirect(req.query.ref ? req.query.ref : '/')
+  res.redirect(proxy + (req.query.ref ? req.query.ref : '/'))
 })
 
 app.get('/account', (req, res) => {
-  if (!req.session._user) return res.redirect('/login?ref=/account')
+  if (!req.session._user) return res.redirect(proxy + '/login?ref=/account')
   res.render('account')
 })
 
 app.get('/article', (req, res) => {
-  res.render('article', { article: {
-    title: 'Article Title',
-    subtitle: 'Here\'s a cool subtitle',
-    authors: [
-      { name: 'First Last' }
-    ],
-    content: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-    eros nibh, ultrices et eleifend at, iaculis id tellus. Ut neque ligula,
-    bibendum non varius pellentesque, sagittis a arcu. Donec turpis massa,
-    fringilla vitae mauris a, consequat imperdiet purus. Suspendisse nec
-    condimentum justo. Aenean eros elit, porta ac nunc eu, pulvinar iaculis
-    justo. Aliquam tristique, odio eget vehicula mollis, ipsum libero malesuada
-    mauris, sed ornare nisi elit sit amet leo. Aenean consequat ante ac mattis
-    elementum. Donec venenatis est eu magna efficitur ullamcorper. Pellentesque
-    sed nisi a nisi mattis convallis non id tellus.<p>Curabitur gravida diam in
-    dui scelerisque euismod. Mauris bibendum semper lacinia. Integer sodales
-    pharetra interdum. Maecenas hendrerit urna id tempor iaculis. Integer tempor
-    porttitor leo, vitae tincidunt lorem aliquam a. Suspendisse vestibulum nunc
-    lorem, eu cursus elit malesuada ut. Curabitur interdum lacus ut massa luctus
-    lectus facilisis. Suspendisse quis libero nec enim pulvinar egestas vitae
-    quis dui. Nunc quis ipsum sit amet arcu sodales varius id id lacus.
-    <p>Aenean lacinia, felis non pretium tristique, ante massa bibendum elit,
-    eget lacinia dui tortor eu magna. Aliquam mattis sapien ac molestie mattis.
-    Ut dapibus, quam non suscipit varius, est nisi iaculis nulla, vel
-    pellentesque quam nisi a erat. Duis suscipit finibus neque, vel luctus risus
-    tempus id. Donec et nunc non ligula molestie efficitur id at sapien.
-    Mauris pharetra magna vitae bibendum scelerisque. Ut ac luctus eros, ac dictum
-    libero. Quisque id tempor tortor. Nulla vestibulum magna eu dui consectetur
-    scelerisque. Integer tempor sed nibh sit amet convallis.
-    <p>Quisque facilisis lectus eros, id varius libero fermentum at. Aliquam quis
-    libero quis metus bibendum vulputate nec nec est. Integer porta est ac euismod
-    egestas. Ut quis sapien orci. Interdum et malesuada fames ac ante ipsum primis
-    in faucibus. Suspendisse potenti. Nunc placerat massa id ex consequat elementum.
-    Sed quis est massa. Proin lobortis lorem tristique, tempus ante ut, sollicitudin
-    magna. Nam rutrum purus ante, eu congue lorem elementum a. Aenean at dui id sem
-    blandit faucibus a in orci.<p>Phasellus aliquet fringilla vulputate. Nunc sit
-    amet malesuada dolor. Morbi iaculis blandit dui, vel rhoncus ex condimentum
-    vitae. Phasellus ultricies auctor eros, sit amet molestie tellus dapibus ut.
-    Mauris vulputate mollis lectus, eget viverra mauris porta sed. Sed porttitor
-    posuere laoreet. Etiam ultrices massa et orci hendrerit accumsan. Phasellus
-    eget vulputate massa, sit amet placerat magna. Vivamus egestas congue diam.
-    Nam sit amet malesuada lacus, et luctus metus. Nam consequat vel turpis et
-    faucibus. Vivamus porttitor dolor magna, in malesuada nisi dignissim ut.
-    Nulla sed nibh congue, maximus nisi quis, sollicitudin ligula.`
-  }})
+  var s_path = path.resolve(__dirname, '../sample.json')
+  var sample = JSON.parse(fs.readFileSync(s_path, 'utf8'))
+  res.render('article', sample)
 })
 
 app.get('/article/:article_id', (req, res) => {
   Article.findOne({_id: req.params.article_id}).exec((err, article) => {
     res.render('article', { article: article })
   })
+})
+
+app.get('/img/:dir/:file', (req, res) => {
+  var file = path.resolve(__dirname, '../public/img', req.params.dir, req.params.file)
+  if (deployment) res.sendFile(file)
+  else {
+    // prefer local copy, if available
+    fs.access(file, fs.constants.R_OK, (err) => {
+      if (err) {
+        request('http://' + path.join(cfg_host, 'img',
+                 req.params.dir, req.params.file)).pipe(res)
+      } else res.sendFile(file)
+    })
+  }
 })
 
 const storage     = multer.diskStorage({
@@ -214,7 +195,8 @@ const storage     = multer.diskStorage({
   }
 })
 const filter      = (req, file, cb) => {
-  cb(null, [ 'image/jpg', 'image/jpeg', 'image/png', 'image/gif' ].indexOf(req.body.mime) > -1)
+  cb(null, ([ 'image/jpg', 'image/jpeg', 'image/png', 'image/gif' ].indexOf(req.body.mime) > -1
+            && req.session._user))
 }
 const upload      = multer({ storage: storage,
                              fileFilter: filter,
@@ -223,81 +205,14 @@ app.post('/upload', upload.single('image'), (req, res) => {
   res.json({ status: 200, location: req.body.location })
 })
 
-const router      = express.Router()
-router.use((req, res, next) => {
-  if (!req.session._user) {
-    console.log(req.body.api_key, apiKey)
-    if (req.body.api_key && req.body.api_key == apiKey) {
-      console.log('API Bypass')
-      next()
-    } else res.redirect('/login?ref=/manage')
-  } else next()
-})
-
-router.get('/', (req, res) => {
-  Article.find().exec((err, articles) => {
-    res.render('create', { render: 'menu', articles: articles })
-  })
-})
-
-router.get('/games', (req, res) => {
-  res.render('create', { render: 'games' })
-})
-
-router.post('/games/create', (req, res) => {
-  var game = new Game(req.body)
-  game.save((err) => {
-    if (err) res.send(err)
-    else res.sendStatus(200)
-  })
-})
-
-router.route('/users')
-  .get((req, res) => {
-    res.render('create', { render: 'users' })
-  })
-  .put((req, res) => {
-    var u = new User(req.body)
-    u.save((err, user) => {
-      if (err) return res.json({ status: 500, message: err })
-      res.json({ status: 200, user: user })
-    })
-  })
-
-router.route('/articles')
-  .get((req, res) => {
-    res.render('create', { render: 'articles' })
-  })
-  .put((req, res) => {
-    var a = new Article(req.body)
-    a.authors = [ { _id: req.session._user._id, name: req.session._user.name }]
-    a.save((err, article) => {
-      if (err) res.json({ status: 500, message: err })
-      res.json({ status: 200, _id: article._id })
-    })
-  })
-
-router.route('/articles/:article_id')
-  .get((req, res) => {
-    Article.findOne({_id: req.params.article_id}).exec((err, article) => {
-      if (err) res.send(err)
-      res.render('create', { render: 'articles', article: article })
-    })
-  })
-  .post((req, res) => {
-    Article.findOneAndUpdate({_id: req.body._id}, req.body, {upsert: false}, (err, article) => {
-      if (err) res.json({ status: 500, message: err })
-      res.json({ status: 200 })
-    })
-  })
-  .delete((req, res) => {
-    Article.findByIdAndRemove(req.params.article_id, err => {
-      if (err) res.json({ status: 500, message: err })
-      res.json({ status: 200 })
-    })
-  })
-
-app.use('/manage', router)
+const manageRoute = require('./routes/manage')
+manageRoute.config({
+  apiKey: apiKey,
+   proxy: proxy
+ })
+app.use('/manage', manageRoute)
+app.use('/files', require('./routes/files'))
+app.use(express.static(public))
 
 var server = http.createServer(app)
 var reloadServer = reload(app)

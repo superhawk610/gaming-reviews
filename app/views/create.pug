@@ -13,8 +13,8 @@ html
     include includes/head.pug
     unless render == 'menu'
       include includes/quill/head.pug
-    link(href='/css/datepicker.min.css', rel='stylesheet')
-    link(href='/css/create.css', rel='stylesheet')
+    link(href='css/datepicker.min.css', rel='stylesheet')
+    link(href='css/create.css', rel='stylesheet')
     
   body
     include includes/nav.pug
@@ -29,49 +29,13 @@ html
             
           .columns
             .column.is-one-third-desktop.is-one-half-tablet
-              nav.panel
-                p.panel-heading Articles
-                p.panel-tabs
-                  a.is-active Drafts
-                  a Scheduled
-                  a Published
-                each a in articles
-                  a.panel-block(href='/manage/articles/' + a._id)
-                    span.panel-icon
-                      i.fa.fa-newspaper-o
-                    = a.title
-                a.panel-block(href='/manage/articles')
-                  span.panel-icon
-                    i.fa.fa-plus
-                  | Create New Article
+              include components/article-pane.pug
                   
             .column.is-one-third-desktop.is-one-half-tablet
-              nav.panel
-                p.panel-heading Content
-                p.panel-tabs
-                  a.is-active Media
-                  a Games
-                  a Users
-                  a Categories
-                  a Genres
-                each i in [1, 2, 3, 4, 5]
-                  a.panel-block(href='#')
-                    span.panel-icon
-                      i.fa.fa-image
-                    = i + '.jpg'
+              include components/content-pane.pug
                     
             .column.is-one-third-desktop.is-one-half-tablet
-              nav.panel
-                p.panel-heading Users
-                p.panel-tabs
-                  a.is-active Administrators
-                  a Contributors
-                  a Readers
-                each u in ['Aaron Ross', 'Jay Bloder', 'Liz Borowski']
-                  a.panel-block(href='#')
-                    span.panel-icon
-                      i.fa.fa-user
-                    = u
+              include components/user-pane.pug
         
         if render == 'games'
           include components/create-game.pug
@@ -85,7 +49,7 @@ html
       nav.breadcrumb
         ul
           li
-            a(href='/home')
+            a(href='home')
               span.icon.is-small
                 i.fa.fa-home
           if render == 'menu'
@@ -93,23 +57,23 @@ html
               a(href='#') Manage
           else
             li
-              a(href='/manage') Manage
+              a(href='manage') Manage
             if render == 'games'
               li
                 if game
-                  a(href='/manage/games') Games
+                  a(href='manage/games') Games
                 else
                   a(href='#') Games
             if render == 'articles'
               li
                 if article
-                  a(href='/manage/articles') Articles
+                  a(href='manage/articles') Articles
                 else
                   a(href='#') Articles
             if render == 'users'
               li
                 if user
-                  a(href='/manage/users') Users
+                  a(href='manage/users') Users
                 else
                   a(href='#') Users
             if article
@@ -126,9 +90,9 @@ html
                 a(href='#') Add New
             
     include includes/foot.pug
-    script(src='/js/datepicker.min.js')
-    script(src='/js/datepicker.en.js')
-    script(src='/js/moment.js')
+    script(src='js/datepicker.min.js')
+    script(src='js/datepicker.en.js')
+    script(src='js/moment.js')
     unless render == 'menu'
       include includes/quill/foot.pug
-    script(src='/js/create.js')
+    script(src='js/create.js')
