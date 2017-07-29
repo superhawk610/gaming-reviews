@@ -1,5 +1,22 @@
+#content-wrapper {
+  min-height: 80vh !important;
+}
+
 p {
   margin-bottom: 15px;
+  width: 100%;
+}
+
+p.img img {
+  width: 40%;
+  min-width: 450px;
+  float: left;
+  margin-right: 20px;
+}
+
+p.img:nth-of-type(odd) img {
+  float: right;
+  margin-left: 20px;
 }
 
 h1 {
@@ -23,19 +40,55 @@ h3 {
   padding-left: 5px;
 }
 
+h4 {
+  margin-bottom: 10px;
+}
+
+s {
+  color: #f00;
+  font-style: italic;
+  text-decoration: none;
+}
+
+s::before {
+  content: "< ";
+  color: #f00;
+}
+
+s::after {
+  content: " >";
+  color: #f00;
+}
+
+.article-body::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .article-edit {
   position: absolute;
-  right: 15px; top: 25px;
+  right: 4%; top: 25px;
+  right: calc(2.5% + 25px);
+  z-index: 2;
+}
+
+.article-review {
+  position: absolute;
+  right: 4%; top: 70px;
+  right: calc(2.5% + 25px);
   z-index: 2;
 }
 
 .article-category {
   position: absolute;
   right: 0; bottom: 15px;
-  padding: 1em;
+  padding: 1em 1em 1em 2em;
   color: #fff;
   background: #ff0368;
   z-index: 2;
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
 }
 
 .article-header::after,
@@ -125,9 +178,15 @@ blockquote:not(:last-child) {
   width: 300px;
 }
 
-@media (max-width: 1249px) {
+@media (max-width: 1599px) {
+  #content-wrapper {
+    min-height: 0 !important;
+  }
+
   .article-sidebar {
-    display: none;
+    position: relative;
+    top: auto; right: auto;
+    width: auto;
   }
 
   .article-content {
@@ -159,6 +218,17 @@ blockquote:not(:last-child) {
   .article-content {
     padding: 0;
   }
+
+  p.img img {
+    width: inherit;
+    float: none;
+    margin: 0;
+  }
+
+  p.img:nth-of-type(odd) img {
+    float: none;
+    margin: 0;
+  }
 }
 
 @media (max-width: 767px) {
@@ -168,8 +238,14 @@ blockquote:not(:last-child) {
 
   .article-edit {
     top: 1%; right: auto;
-    left: 50%;
-    transform: translate(-50%, 0);
+    left: 30%;
+    transform: translate(-30%, 0);
+  }
+
+  .article-review {
+    top: 1%; right: auto;
+    left: 70%;
+    transform: translate(-70%, 0);
   }
 
   .article-content {

@@ -1,5 +1,15 @@
 $('.article-submit').on('click', function() {
   $(this).addClass('is-loading');
+
+  // article content processing
+  $ed = $('.ql-editor')
+  $ed.find('img').each(function() {
+    $(this).unwrap('p')
+    $(this).prependTo($(this).prev('p'))
+  })
+  $ed.find('p').has('img').addClass('img')
+  $ed.html($ed.html().replace(/--/g, '&mdash;'))
+
   var data = $('#content-form').serializeArray();
   var o = {};
   $(data).each(function(i, x) {
@@ -9,7 +19,7 @@ $('.article-submit').on('click', function() {
   });
   o.publishedOn = moment(o.date, 'MM/DD/YYYY').toDate();
   delete o.date;
-  o.content = $('#editor[name="content"] .ql-editor').html();
+  o.content = $ed.html();
   if (o.ups) {
     o.ups = o.ups.split(',').map(function(x) {
       return x.trim();

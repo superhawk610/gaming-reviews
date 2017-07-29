@@ -31,6 +31,7 @@ const cfg_host    = cfg.db_host
 const cfg_user    = cfg.db_user
 const cfg_pass    = cfg.db_pass
 const apiKey      = cfg.api_key
+const redisKey    = cfg.redis
 const deployment  = cfg.deployment
 app.locals.deployment = deployment
 app.locals.proxy      = proxy
@@ -66,7 +67,9 @@ app.use(bodyParser.urlencoded({      // to support URL-encoded bodies
 
 app.use(session({
   store: new redis({
-    port: 6379
+    host: '127.0.0.1',
+    port: 6379,
+    pass: redisKey
   }),
   secret: apiKey,
   resave: false,                     // look into this
@@ -153,6 +156,7 @@ app.get('/article', (req, res) => {
 
 app.get('/article/:article_id', (req, res) => {
   Article.findOne({_id: req.params.article_id}).exec((err, article) => {
+    if (err) console.log(err)
     res.render('article', { article: article })
   })
 })
@@ -164,8 +168,13 @@ app.get('/img/:dir/:file', (req, res) => {
     // prefer local copy, if available
     fs.access(file, fs.constants.R_OK, (err) => {
       if (err) {
-        request('http://' + path.join(cfg_host, 'img',
-                 req.params.dir, req.params.file)).pipe(res)
+        var stream = fs.createWriteStream(file)
+        stream.on('finish', () => {
+          res.sendFile(file)
+        })
+        request('http://' + path.join(cfg_host, 'img', req.params.dir,
+          req.params.file))
+          .pipe(stream)
       } else res.sendFile(file)
     })
   }

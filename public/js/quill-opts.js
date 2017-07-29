@@ -1,8 +1,8 @@
 var editor;
 
 var opts = [
-  [{ 'header': [1, 2, 3, false] }],
-  ['bold', 'italic'],
+  [{ 'header': [1, 2, 3, 4, false] }],
+  ['bold', 'italic', 'strike'],
   ['blockquote'],
   ['link', 'image', 'insert'],
   [{ 'list': 'ordered'}, { 'list': 'bullet' }],

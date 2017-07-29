@@ -13,6 +13,7 @@ html
         .article-category= article.category
       if _user && _user.role > 1 && article._id
         a.button.is-primary.article-edit(href='manage/article/' + article._id) Edit Article
+        a.button.is-danger.article-review(href='#') Toggle Review
       #content-wrapper
         .article
           .article-content
@@ -29,7 +30,7 @@ html
                   span(style='color: #aaa') Published on:&nbsp;
                   = moment(article.publishedOn).format('ddd, MMM Do, YYYY')
             hr
-            div
+            div.article-body
               != article.content
             if (article.ups && article.ups.length) || (article.downs && article.downs.length) || (article.rating && article.rating.length) || (article.summary && article.summary.length)
               hr

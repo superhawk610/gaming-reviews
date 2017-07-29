@@ -1,8 +1,11 @@
 {
-       "db": "db",
-  "db_host": "127.0.0.1",
-  "db_user": "user",
-  "db_pass": "pass",
-  "api_key": "abc123foobar",
-  "deployment": false
+        "db": "db",
+   "db_host": "127.0.0.1",
+   "db_user": "user",
+   "db_pass": "pass",
+   "api_key": "abc123foobar",
+"deployment": false,
+      "port": 80,
+     "proxy": "/site/root",
+     "redis": "secretkey"
 }

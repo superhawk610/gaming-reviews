@@ -1,12 +1,25 @@
 #editor {
   min-height: 200px;
-  max-height: 70vh;
+  max-height: 50vh;
   background: #fff;
   overflow-y: auto;
 }
 
 .ql-editor {
   padding-bottom: 50px;
+}
+
+.ql-editor s {
+  color: #f00;
+  text-decoration: none;
+}
+
+.ql-editor s::before {
+  content: "< "
+}
+
+.ql-editor s::after {
+  content: " >"
 }
 
 .rating-swatch {
@@ -21,4 +34,10 @@
 .panel-tabs,
 .panel-block {
   background: #f8f8f8;
+}
+
+@media (max-width: 1112px) {
+  #editor {
+    max-height: 70vh;
+  }
 }

@@ -18,6 +18,11 @@ $('.navbar-burger').on('click', function() {
 
 $('a[href="#"]').on('click', function(e) { e.preventDefault() })
 
+$('.article-review').on('click', function(e) {
+  e.preventDefault()
+  $('s').fadeToggle()
+})
+
 $('#status-notification .delete').on('click', function() {
   $(this).parent().fadeOut()
 })
